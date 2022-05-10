@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
 import {
@@ -7,18 +7,20 @@ import {
   Button,
   Typography,
   InputAdornment,
-  Link,
 } from "@mui/material";
 import img1 from "../utility/img1.jpg";
 
-let Login = () => {
+let Signup = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [username, setUsername] = useState("");
+  const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
-  const handleLogin = () => {
-    // console.log("password : ", password)
+  const [invalidEmailId, setInvalidEmailId] = useState(false);
+  const handleSignUp = () => {
+    console.log(emailId);
+    console.log(password);
     if (!password) {
       setPasswordError(true);
     } else {
@@ -29,18 +31,24 @@ let Login = () => {
     } else {
       setUsernameError(false);
     }
-
-    // console.log(password, passwordError);
-    // console.log(username, usernameError);
+    validateEmail();
+  };
+  const validateEmail = () => {
+    if (!emailId) {
+      setInvalidEmailId(true);
+    } else {
+      setInvalidEmailId(false);
+    }
   };
   return (
     <Box
       sx={{
-        width: [0, 0, 340, 430, 480],
-        position: "fixed",
-        top: [0, 0, "25vh", "15vh", "14vh"],
-        left: [0, 0, "5vw", "5vw", "15vw"],
-        borderRadius: "1rem",
+        boxSizing: "border-box",
+        margin: "0",
+        padding: "0",
+
+        width: "100vw",
+        height: "100vh",
       }}
     >
       <Box
@@ -71,8 +79,9 @@ let Login = () => {
         }}
       >
         <Typography variant="h3" color={"primary.main"}>
-          Login
+          Sign Up
         </Typography>
+
         <TextField
           required
           id="standard-required"
@@ -81,13 +90,24 @@ let Login = () => {
           value={username}
           error={usernameError}
           helperText={usernameError ? "Username required" : ""}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
           required
+          id="standard-required"
+          label="Email Id"
+          variant="standard"
+          value={emailId}
+          onChange={(e) => setEmailId(e.target.value)}
+          error={invalidEmailId}
+          helperText={
+            invalidEmailId ? "Please enter a valid email address" : ""
+          }
+          he
+        />
+        <TextField
           id="standard-password-input"
+          required
           label="Password"
           type={passwordVisibility ? "text" : "password"}
           autoComplete="current-password"
@@ -111,31 +131,28 @@ let Login = () => {
               </InputAdornment>
             ),
           }}
+          value={password}
           error={passwordError}
           helperText={passwordError ? "Please enter a password" : ""}
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <Button
           size="large"
           variant="outlined"
           endIcon={<LoginIcon />}
-          onClick={handleLogin}
+          onClick={handleSignUp}
         >
-          Login
+          Signup
         </Button>
         <Box>
-          <Link variant="subtitle1">Forgot Password ?</Link>
           <Typography variant="subtitle1">
-            Don't have an account ?{" "}
+            Already have an account ?{" "}
             <Typography
               display={"inline"}
               color="primary.main"
               variant="subtitle1"
             >
-              SignUp
+              Login
             </Typography>
           </Typography>
         </Box>
@@ -143,4 +160,4 @@ let Login = () => {
     </Box>
   );
 };
-export default Login;
+export default Signup;
