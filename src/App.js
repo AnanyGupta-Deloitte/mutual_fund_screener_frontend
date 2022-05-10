@@ -6,7 +6,6 @@ import {
   Switch,
 } from "react-router-dom";
 import Login from "./Components/Login"
-import Signup from "./Components/Signup"
 
 let App = () => {
   return (
