@@ -6,10 +6,10 @@ import {
   Box,
   Button,
   Typography,
-  InputAdornment,
-  Link,
+  InputAdornment
 } from "@mui/material";
-import img1 from "../utility/img1.jpg";
+import {Link } from "react-router-dom";
+import Poster from "./Poster";
 
 let Login = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -43,17 +43,7 @@ let Login = () => {
         borderRadius: "1rem",
       }}
     >
-      <Box
-        component="img"
-        sx={{
-          width: [0, 0, 340, 430, 480],
-          position: "fixed",
-          top: [0, 0, "25vh", "15vh", "14vh"],
-          left: [0, 0, "5vw", "5vw", "15vw"],
-          borderRadius: "1rem",
-        }}
-        src={img1}
-      />
+      <Poster/>
       <Box
         sx={{
           width: ["75vw", "62.5vw", "25vw", "25vw", "25vw"],
@@ -127,7 +117,9 @@ let Login = () => {
           Login
         </Button>
         <Box>
-          <Link variant="subtitle1">Forgot Password ?</Link>
+          <Typography variant="subtitle1">
+          <Link style={{ textDecoration: "none" }} to="/forgot-password">Forgot Password ?</Link>
+          </Typography>
           <Typography variant="subtitle1">
             Don't have an account ?{" "}
             <Typography
@@ -135,7 +127,8 @@ let Login = () => {
               color="primary.main"
               variant="subtitle1"
             >
-              SignUp
+            <Link style={{ textDecoration: "none" }} to="/signup">Sign Up</Link>
+            
             </Typography>
           </Typography>
         </Box>

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
+import {Link } from "react-router-dom";
 import {
   TextField,
   Box,
@@ -8,7 +9,7 @@ import {
   Typography,
   InputAdornment,
 } from "@mui/material";
-import img1 from "../utility/img1.jpg";
+import Poster from "./Poster"
 
 let Signup = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -51,17 +52,7 @@ let Signup = () => {
         height: "100vh",
       }}
     >
-      <Box
-        component="img"
-        sx={{
-          width: [0, 0, 340, 430, 480],
-          position: "fixed",
-          top: [0, 0, "25vh", "15vh", "14vh"],
-          left: [0, 0, "5vw", "5vw", "15vw"],
-          borderRadius: "1rem",
-        }}
-        src={img1}
-      />
+      <Poster/>
       <Box
         sx={{
           width: ["75vw", "62.5vw", "25vw", "25vw", "25vw"],
@@ -147,13 +138,7 @@ let Signup = () => {
         <Box>
           <Typography variant="subtitle1">
             Already have an account ?{" "}
-            <Typography
-              display={"inline"}
-              color="primary.main"
-              variant="subtitle1"
-            >
-              Login
-            </Typography>
+            <Link  style={{ textDecoration: "none" }} to="/login"> Login</Link>
           </Typography>
         </Box>
       </Box>

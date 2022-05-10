@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import {Link } from "react-router-dom";
+
 import {
   TextField,
   Box,
   Button,
   Typography,
 } from "@mui/material";
-import img1 from "../utility/img1.jpg";
+import Poster from './Poster';
 import { SendOutlined } from "@mui/icons-material";
 
 const ForgotPassword = () => {
@@ -30,17 +32,7 @@ const ForgotPassword = () => {
           height: "100vh",
         }}
       >
-        <Box
-          component="img"
-          sx={{
-            width: [0, 0, 340, 430, 480],
-            position: "fixed",
-            top: [0, 0, '25vh', '15vh', '14vh'],
-            left: [0,0,"5vw", "5vw", "15vw"],
-            borderRadius: "1rem",
-          }}
-          src={img1}
-        />
+        <Poster/>
         <Box
           sx={{
             width: ["75vw", "62.5vw", "25vw", "25vw", "25vw"],
@@ -81,7 +73,10 @@ const ForgotPassword = () => {
           >
             Send Reset Password Link
           </Button>
-          
+          <Typography variant="subtitle1">
+            Changed Password ?{" "}
+            <Link  style={{ textDecoration: "none" }} to="/login"> Login</Link>
+          </Typography>
         </Box>
 
       </Box>
