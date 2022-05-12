@@ -8,7 +8,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Login } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
-
+import CalculateIcon from '@mui/icons-material/Calculate';
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -27,12 +27,15 @@ const Navbar = () => {
       <Box
         sx={{
           boxSizing: "border-box",
-          width: ["10vh"],
+          width: ["15vh"],
           display: "flex",
           justifyContent: "space-between",
           marginRight: "1vh",
         }}
       >
+        <Link style={{ color: "#FFF" }} to="/calculator">
+          <CalculateIcon />
+        </Link>
         <Link style={{ color: "#FFF" }} to="/user/profile">
           <AccountCircle />
         </Link>
