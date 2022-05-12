@@ -5,6 +5,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import Calculator from "./Components/Calculator";
 import ForgotPassword from "./Components/ForgotPassword";
 // import ForgotPassword from "./Components/ForgotPassword";
 import Login from "./Components/Login"
@@ -22,6 +23,7 @@ let App = () => {
       <Route path="/" component={UserDashboard} exact></Route>
       <Switch>
       <Route path="/mutual-funds/:id" component={MutualFundPage}></Route>
+      <Route path="/calculator" component={Calculator}></Route>
       </Switch>
    
     </Router>
