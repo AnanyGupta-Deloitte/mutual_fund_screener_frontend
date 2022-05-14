@@ -1,93 +1,117 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import GridTable from "./GridTable";
 import Navbar from "./Navbar";
-import { Divider, Typography } from "@mui/material";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { Divider, Typography, IconButton } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from "@mui/icons-material/Close";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import PlanFilter from "./Filters/PlanFilter";
+import SubCategoryFilter from "./Filters/SubCategoryFilter";
+import RiskFilter from "./Filters/RiskFilter";
 const drawerWidth = "18vw";
 const Filters = () => {
+  const [plan, setPlan] = useState("All");
+  const [risk, setRisk] = useState("All");
+  const [subCategory, setSubCategory] = useState("All");
+  const [isSCFilterVisible, setIsSCFilterVisible] = useState(false);
+  const [isPlanFilterVisible, setIsPlanFilterVisible] = useState(false);
+  const [isRiskFilterVisible, setIsRiskFilterVisible] = useState(false);
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
+     
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Navbar />
       </AppBar>
+      
       <Box
         variant="permanent"
         sx={{
+          overflow:"auto",
           boxSizing: "border-box",
           borderColor: "primary.main",
           border: 1,
           height: ["90vh"],
-          width: [0,0,"18vw","18vw","18vw"],
+          width: [0, 0, "18vw", "18vw", "18vw"],
           position: "fixed",
           left: ["0vh"],
           top: ["7vh"],
           margin: ["1vh"],
         }}
-      >
-        <Toolbar />
+      > 
         <Box
           sx={{
-            overflow: "auto",
+            overflow:"auto",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            
+            margin: ["1vh"],
           }}
         >
-          <Typography variant="h4" color={"primary.main"}> FILTERS {" "} <FilterAltIcon/></Typography>
-          <Box
-            sx={{
-              borderColor: "primary.main",
-              marginTop: "3vh",
-              marginBottom: "3vh",
-              borderTop: 1,
-              borderBottom: 1,
-              width: [0,0,"16vw","16vw","16vw"],
-              paddingTop: "4vh",
-              paddingBottom: "4vh",
-            }}
-          >
-            <FormControl>
-              <FormLabel id="demo-radio-buttons-group-label"> <Typography variant="h6" color={"primary.main"}> Category</Typography></FormLabel>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="All"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="All"
-                  control={<Radio />}
-                  label="All"
-                />
-                <FormControlLabel
-                  value="Commodity"
-                  control={<Radio />}
-                  label="Commodity"
-                />
-                <FormControlLabel
-                  value="Equity"
-                  control={<Radio />}
-                  label="Equity"
-                />
-              </RadioGroup>
-            </FormControl>
+          <Typography variant="h5" color={"primary.main"}>
+            {" "}
+            FILTERS <FilterAltIcon />
+          </Typography>
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" color="primary.main">
+                Plans
+              </Typography>
+                <IconButton onClick={()=>{
+                    setIsPlanFilterVisible(!isPlanFilterVisible)
+                }}>
+                  {isPlanFilterVisible ? <CloseIcon /> : <AddIcon />}
+                </IconButton>
+            </Box>
+            {isPlanFilterVisible ? <PlanFilter setPlan={setPlan} /> : ""}
+       
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" color="primary.main">
+              Sub Category
+              </Typography>
+                <IconButton onClick={()=>{
+                    setIsSCFilterVisible(!isSCFilterVisible)
+                }}>
+                  {isSCFilterVisible ? <CloseIcon /> : <AddIcon />}
+                </IconButton>
+            </Box>
+            {isSCFilterVisible ? <SubCategoryFilter setSubCategory={setSubCategory} /> : ""}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" color="primary.main">
+              Risk
+              </Typography>
+                <IconButton onClick={()=>{
+                    setIsRiskFilterVisible(!isRiskFilterVisible)
+                }}>
+                  {isRiskFilterVisible ? <CloseIcon /> : <AddIcon />}
+                </IconButton>
+            </Box>
+            {isRiskFilterVisible ? <RiskFilter setRisk={setRisk}/>:"" }
           </Box>
         </Box>
       </Box>
-      <GridTable></GridTable>
+
+      <GridTable plan={plan} subCategory={subCategory} risk={risk}></GridTable>
     </Box>
   );
 };

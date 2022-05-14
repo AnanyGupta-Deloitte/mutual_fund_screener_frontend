@@ -84,7 +84,7 @@ const Calculator = () => {
             border: 2,
             borderRadius: 4,
             padding: 5,
-            borderColor:"primary.main"
+            borderColor: "primary.main",
           }}
         >
           <Link style={{ color: "#000" }} to="/">
@@ -96,22 +96,20 @@ const Calculator = () => {
           <Box
             sx={{
               padding: 5,
-              display: 'flex',
-              flexDirection:"column",
-              justifyContent:"space-around",
-              height:'80%'
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              height: "80%",
             }}
           >
-              
             <TextField
-                
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
                     <CurrencyRupeeIcon />
                   </InputAdornment>
                 ),
-                inputProps: { min: 0, max: 50000 },
+                inputProps: { min:0, max: 50000 },
               }}
               id="standard-required"
               label="SIP Amount"
@@ -121,76 +119,103 @@ const Calculator = () => {
               type="number"
               onChange={(e) => {
                 let flag1 = e.target.value > 50000;
-                let flag2 = e.target.value < 100;
-                let value = flag1 ? 50000 : flag2 ? 100 : e.target.value;
+                let flag2 = e.target.value < 0;
+                let value = flag1 ? 50000 : flag2 ? 0 : e.target.value;
                 setInvestmentAmount(value);
                 calculateResultOfSIP();
               }}
             />
-           
-              <TextField
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">years</InputAdornment>
-                  ),
-                  inputProps: { min: 1, max: 30 },
-                }}
-                id="standard-required"
-                label="SIP Period"
-                size="large"
-                variant="outlined"
-                value={duration}
-                type="number"
-                onChange={(e) => {
-                  handleDurationChange(e);
-                }}
-              />
+            <Slider
+              value={investmentAmount}
+              min={100}
+              max={50000}
+              size="medium"
+              onChange={(e) => {
+                setInvestmentAmount(e.target.value);
+                calculateResultOfSIP();
+              }}
+            />
 
-              <Slider
-                size="medium"
-                value={duration}
-                min={1}
-                max={30}
-                onChange={(e) => {
-                  handleDurationChange(e);
-                }}
-              />
-            
-              <TextField
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <b>%</b>
-                    </InputAdornment>
-                  ),
-                  inputProps: { min: 5.0, max: 30.0 },
-                }}
-                id="standard-required"
-                label="Expected Returns per annum"
-                size="large"
-                variant="outlined"
-                value={expectedReturns}
-                type="number"
-                onChange={(e) => {
-                  handleExpectedReturnsChange(e);
-                }}
-              />
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">years</InputAdornment>
+                ),
+                inputProps: { min: 1, max: 30 },
+              }}
+              id="standard-required"
+              label="SIP Period"
+              size="large"
+              variant="outlined"
+              value={duration}
+              type="number"
+              onChange={(e) => {
+                handleDurationChange(e);
+              }}
+            />
 
-              <Slider
-                value={expectedReturns}
-                step={0.1}
-                min={5}
-                max={30}
-                size="medium"
-                onChange={(e) => {
-                  handleExpectedReturnsChange(e);
-                }}
-              />
-            
-            <Typography variant ="h4" color="success.dark">Wealth Gained :<Typography variant="h4" display="inline" color="success.main"><CurrencyRupeeIcon />{interest}</Typography></Typography>
-            <Typography variant ="h4" color="success.dark">Invested Amount :<Typography variant="h4" display="inline" color="success.main"><CurrencyRupeeIcon />{principal}</Typography></Typography>
-            <Typography variant ="h4" color="success.dark">Total Wealth :<Typography variant="h4" display="inline" color="success.main"><CurrencyRupeeIcon />{result}</Typography></Typography>
-           
+            <Slider
+              size="medium"
+              value={duration}
+              min={1}
+              max={30}
+              onChange={(e) => {
+                handleDurationChange(e);
+              }}
+            />
+
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <b>%</b>
+                  </InputAdornment>
+                ),
+                inputProps: { min: 5.0, max: 30.0 },
+              }}
+              id="standard-required"
+              label="Expected Returns per annum"
+              size="large"
+              variant="outlined"
+              value={expectedReturns}
+              type="number"
+              onChange={(e) => {
+                handleExpectedReturnsChange(e);
+              }}
+            />
+
+            <Slider
+              value={expectedReturns}
+              step={0.1}
+              min={5}
+              max={30}
+              size="medium"
+              onChange={(e) => {
+                handleExpectedReturnsChange(e);
+              }}
+            />
+
+            <Typography variant="h4" color="success.dark">
+              Wealth Gained :
+              <Typography variant="h4" display="inline" color="success.main">
+                <CurrencyRupeeIcon />
+                {interest}
+              </Typography>
+            </Typography>
+            <Typography variant="h4" color="success.dark">
+              Invested Amount :
+              <Typography variant="h4" display="inline" color="success.main">
+                <CurrencyRupeeIcon />
+                {principal}
+              </Typography>
+            </Typography>
+            <Typography variant="h4" color="success.dark">
+              Total Wealth :
+              <Typography variant="h4" display="inline" color="success.main">
+                <CurrencyRupeeIcon />
+                {result}
+              </Typography>
+            </Typography>
           </Box>
         </Box>
         <Box
