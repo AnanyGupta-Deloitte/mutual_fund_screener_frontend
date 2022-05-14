@@ -42,7 +42,9 @@ const Navbar = () => {
         {isLoggedIn ? (
           <LogoutIcon onClick={handleLogout} />
         ) : (
-          <Login onClick={handleLogin} />
+          <Link style={{ color: "#FFF" }} to="/login">
+          <Login />
+          </Link>
         )}
       </Box>
     </Toolbar>
