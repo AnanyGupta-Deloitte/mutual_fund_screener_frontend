@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -22,7 +20,7 @@ const Navbar = () => {
   return (
     <Toolbar>
       <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        Mutual Fund Screener
+      <Link style={{ color: "#FFF",textDecoration:"none"}} to="/">Mutual Fund Screener</Link>
       </Typography>
       <Box
         sx={{
@@ -36,14 +34,14 @@ const Navbar = () => {
         <Link style={{ color: "#FFF" }} to="/calculator">
           <CalculateIcon />
         </Link>
-        <Link style={{ color: "#FFF" }} to="/user/profile">
+        <Link style={{ color: "#FFF" }} to="/user-profile">
           <AccountCircle />
         </Link>
         {isLoggedIn ? (
           <LogoutIcon onClick={handleLogout} />
         ) : (
           <Link style={{ color: "#FFF" }} to="/login">
-          <Login />
+          <Login  onClick={handleLogin} />
           </Link>
         )}
       </Box>

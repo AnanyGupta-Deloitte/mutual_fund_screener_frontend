@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import Navbar from "./UserComponents/DashBoardComponents/Navbar";
 import {
   TextField,
   Box,
-  Button,
   Typography,
   InputAdornment,
   Slider,
-  IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+import AppBar from "@mui/material/AppBar";
 import { Doughnut } from "react-chartjs-2";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import { Chart, ArcElement, Tooltip, Title, Legend } from "chart.js";
@@ -66,14 +67,19 @@ const Calculator = () => {
   };
   return (
     <>
+      <AppBar position="fixed">
+        <Navbar />
+      </AppBar>
       <Box
         sx={{
+          position:"fixed",
+          top:"5vh",
           boxSizing: "border-box",
           display: "flex",
           flexDirection: ["column", "column", "row", "row", "row"],
           justifyContent: "space-around",
           alignItems: ["center", "center", null, null, null],
-          height: "100vh",
+          height: "95vh",
           width: "100vw",
         }}
       >

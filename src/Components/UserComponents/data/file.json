@@ -204,7 +204,7 @@
   "sub_category": "Balanced Advantage Fund",
   "plan": "Growth",
   "aum": 24019.66,
-  "cagr": "-",
+  "cagr": 5.12,
   "expense_ratio": 0.48,
   "sebi_risk": "Moderately High",
   "id": 149134
@@ -564,8 +564,8 @@
   "sub_category": "Multi Cap Fund",
   "plan": "Growth",
   "aum": 8986.65,
-  "cagr": "-",
-  "expense_ratio": "-",
+  "cagr": 4.2,
+  "expense_ratio": 0.21,
   "sebi_risk": "Very High",
   "id": 149882
  },
@@ -654,7 +654,7 @@
   "sub_category": "Liquid Fund",
   "plan": "IDCW",
   "aum": 46613.9,
-  "cagr": "-",
+  "cagr": 12.2,
   "expense_ratio": 0.2,
   "sebi_risk": "Moderately Low",
   "id": 119089
@@ -754,7 +754,7 @@
   "sub_category": "Liquid Fund",
   "plan": "IDCW",
   "aum": 39901.99,
-  "cagr": "-",
+  "cagr": -2.12,
   "expense_ratio": 0.2,
   "sebi_risk": "Moderate",
   "id": 120188
@@ -834,7 +834,7 @@
   "sub_category": "Liquid Fund",
   "plan": "IDCW",
   "aum": 34891.15,
-  "cagr": "-",
+  "cagr": -3.32,
   "expense_ratio": 0.21,
   "sebi_risk": "Moderate",
   "id": 119569

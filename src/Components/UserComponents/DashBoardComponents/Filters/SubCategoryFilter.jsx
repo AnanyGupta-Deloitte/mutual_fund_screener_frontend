@@ -8,7 +8,7 @@ const SubCategoryFilter = (props) => {
 
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="All"
+          defaultValue={props.subCategory}
           name="radio-buttons-group"
           onChange={(e) => {
             props.setSubCategory(e.target.value);

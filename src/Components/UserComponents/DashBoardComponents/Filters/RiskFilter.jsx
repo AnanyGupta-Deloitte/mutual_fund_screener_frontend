@@ -7,7 +7,7 @@ const RiskFilter = (props) => {
     return ( <FormControl>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="All"
+          defaultValue={props.risk}
           name="radio-buttons-group"
           onChange={(e) => {
             props.setRisk(e.target.value);

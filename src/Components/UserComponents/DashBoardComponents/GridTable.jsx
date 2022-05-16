@@ -23,8 +23,7 @@ const MutualFundComponent = (p) => {
 
 const GridTable = (props) => {
   const [rowData, setRowData] = useState();
-  const [columnDefs, setColumnDefs] = useState([
-    // using default ColDef
+  const [columnDefs,setColumnDefs] = useState([
     {
       headerName: "Fund Id",
       field: "id",
@@ -34,14 +33,28 @@ const GridTable = (props) => {
     {
       headerName: "Mutual Fund",
       field: "name",
+      filter: "agTextColumnFilter",
+      floatingFilter: true,
       cellRenderer: MutualFundComponent,
       width: 280,
     },
     { headerName: "Plan", field: "plan", width: 100 },
     { headerName: "Sub Category", field: "sub_category", width: 240 },
-    { headerName: "Assets Under Management(Cr)", field: "aum", width: 250 },
-    { headerName: "Growth Rate", field: "cagr" },
-    { headerName: "Expense Ratio", field: "expense_ratio" },
+    {
+      headerName: "Assets Under Management(Cr)",
+      field: "aum",
+      width: 250,
+      valueFormatter: params => params.data.aum.toFixed(2)
+    },
+    { headerName: "Growth Rate", 
+    field: "cagr",
+    valueFormatter: params => params.data.cagr.toFixed(2)
+     },
+    {
+      headerName: "Expense Ratio",
+      field: "expense_ratio",
+      valueFormatter: params => params.data.expense_ratio?.toFixed(2),
+    },
     { headerName: "Risk", field: "sebi_risk", width: 165 },
   ]);
 
@@ -49,7 +62,6 @@ const GridTable = (props) => {
     return {
       // set the default column width
       width: 170,
-      filter: "agTextColumnFilter",
       sortable: true,
       resizable: true,
     };
@@ -64,13 +76,15 @@ const GridTable = (props) => {
 
   useEffect(() => {
     let filteredData = data;
-    if (props.plan != "All")
-      filteredData = data.filter((d) => d.plan === props.plan);
-    if (props.risk != "All")
-      filteredData = data.filter((d) => d.sebi_risk === props.risk);
-    if (props.subCategory != "All") {
+    if (props.plan !== "All")
+      filteredData = filteredData.filter((d) => d.plan === props.plan);
+    if (props.risk !== "All")
+      filteredData = filteredData.filter((d) => d.sebi_risk === props.risk);
+    if (props.subCategory !== "All") {
       if (props.subCategory !== "Other Funds")
-        filteredData = data.filter((d) => d.sub_category === props.subCategory);
+        filteredData = filteredData.filter(
+          (d) => d.sub_category === props.subCategory
+        );
       else {
         let list = [
           "Arbitrage Fund",
@@ -83,7 +97,9 @@ const GridTable = (props) => {
           "Mid Cap Fund",
           "Small Cap Fund",
         ];
-        filteredData = data.filter((d) => !list.includes(d.sub_category));
+        filteredData = filteredData.filter(
+          (d) => !list.includes(d.sub_category)
+        );
       }
     }
 

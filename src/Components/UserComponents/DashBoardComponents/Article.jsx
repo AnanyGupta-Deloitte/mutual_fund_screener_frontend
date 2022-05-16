@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
-import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
 import GridTable from "./GridTable";
 import Navbar from "./Navbar";
-import { Divider, Typography, IconButton } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import { Typography, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import PlanFilter from "./Filters/PlanFilter";
 import SubCategoryFilter from "./Filters/SubCategoryFilter";
 import RiskFilter from "./Filters/RiskFilter";
-const drawerWidth = "18vw";
 const Filters = () => {
   const [plan, setPlan] = useState("All");
   const [risk, setRisk] = useState("All");
@@ -23,17 +20,14 @@ const Filters = () => {
   const [isRiskFilterVisible, setIsRiskFilterVisible] = useState(false);
   return (
     <Box sx={{ display: "flex" }}>
-     
-      <AppBar
-        position="fixed"
-      >
+      <AppBar position="fixed">
         <Navbar />
       </AppBar>
-      
+
       <Box
         variant="permanent"
         sx={{
-          overflow:"auto",
+          overflow: "hidden",
           boxSizing: "border-box",
           borderColor: "primary.main",
           border: 1,
@@ -44,19 +38,21 @@ const Filters = () => {
           top: ["7vh"],
           margin: ["1vh"],
         }}
-      > 
+      >
+        <Typography margin="1vh" variant="h5" color={"primary.main"}>
+          {" "}
+          FILTERS <FilterAltIcon />
+        </Typography>
         <Box
           sx={{
-            overflow:"auto",
+            overflow: "auto",
+            
+            height: ["100%"],
             display: "flex",
             flexDirection: "column",
-            margin: ["1vh"],
+            margin:"1vh 0 3vh 1vh"
           }}
         >
-          <Typography variant="h5" color={"primary.main"}>
-            {" "}
-            FILTERS <FilterAltIcon />
-          </Typography>
           <Box>
             <Box
               sx={{
@@ -67,14 +63,20 @@ const Filters = () => {
               <Typography variant="h6" color="primary.main">
                 Plans
               </Typography>
-                <IconButton onClick={()=>{
-                    setIsPlanFilterVisible(!isPlanFilterVisible)
-                }}>
-                  {isPlanFilterVisible ? <CloseIcon /> : <AddIcon />}
-                </IconButton>
+              <IconButton
+                onClick={() => {
+                  setIsPlanFilterVisible(!isPlanFilterVisible);
+                }}
+              >
+                {isPlanFilterVisible ? <CloseIcon /> : <AddIcon />}
+              </IconButton>
             </Box>
-            {isPlanFilterVisible ? <PlanFilter setPlan={setPlan} /> : ""}
-       
+            {isPlanFilterVisible ? (
+              <PlanFilter plan={plan} setPlan={setPlan} />
+            ) : (
+              ""
+            )}
+
             <Box
               sx={{
                 display: "flex",
@@ -82,15 +84,24 @@ const Filters = () => {
               }}
             >
               <Typography variant="h6" color="primary.main">
-              Sub Category
+                Sub Category
               </Typography>
-                <IconButton onClick={()=>{
-                    setIsSCFilterVisible(!isSCFilterVisible)
-                }}>
-                  {isSCFilterVisible ? <CloseIcon /> : <AddIcon />}
-                </IconButton>
+              <IconButton
+                onClick={() => {
+                  setIsSCFilterVisible(!isSCFilterVisible);
+                }}
+              >
+                {isSCFilterVisible ? <CloseIcon /> : <AddIcon />}
+              </IconButton>
             </Box>
-            {isSCFilterVisible ? <SubCategoryFilter setSubCategory={setSubCategory} /> : ""}
+            {isSCFilterVisible ? (
+              <SubCategoryFilter
+                subCategory={subCategory}
+                setSubCategory={setSubCategory}
+              />
+            ) : (
+              ""
+            )}
             <Box
               sx={{
                 display: "flex",
@@ -98,15 +109,21 @@ const Filters = () => {
               }}
             >
               <Typography variant="h6" color="primary.main">
-              Risk
+                Risk
               </Typography>
-                <IconButton onClick={()=>{
-                    setIsRiskFilterVisible(!isRiskFilterVisible)
-                }}>
-                  {isRiskFilterVisible ? <CloseIcon /> : <AddIcon />}
-                </IconButton>
+              <IconButton
+                onClick={() => {
+                  setIsRiskFilterVisible(!isRiskFilterVisible);
+                }}
+              >
+                {isRiskFilterVisible ? <CloseIcon /> : <AddIcon />}
+              </IconButton>
             </Box>
-            {isRiskFilterVisible ? <RiskFilter setRisk={setRisk}/>:"" }
+            {isRiskFilterVisible ? (
+              <RiskFilter risk={risk} setRisk={setRisk} />
+            ) : (
+              ""
+            )}
           </Box>
         </Box>
       </Box>
