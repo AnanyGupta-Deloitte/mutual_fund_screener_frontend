@@ -50,18 +50,18 @@ const UserProfile = () => {
       filter: "agTextColumnFilter",
       floatingFilter: true,
       cellRenderer: MutualFundComponent,
-      width: 100,
+      width: 120,
     },
     {
       headerName: "Mutual Fund",
       field: "name",
       filter: "agTextColumnFilter",
       floatingFilter: true,
-      cellRenderer: MutualFundComponent,
-      width: 280,
+      cellRenderer: MutualFundComponent,resizable: true,
+      width: 260,
     },
-    { headerName: "Plan", field: "plan", width: 120 },
-    { headerName: "Sub Category", field: "sub_category", width: 240 },
+    { headerName: "Plan", field: "plan", width: 140 },
+    { headerName: "Sub Category", field: "sub_category",resizable: true, width: 240 },
     {
       headerName: "Assets Under Management(Cr)",
       field: "aum",
@@ -71,23 +71,23 @@ const UserProfile = () => {
     {
       headerName: "Growth Rate",
       field: "cagr",
-      valueFormatter: (params) => params.data.cagr.toFixed(2),
+      valueFormatter: (params) => params.data.cagr.toFixed(2), width: 180
     },
     {
       headerName: "Expense Ratio",
       field: "expense_ratio",
-      valueFormatter: (params) => params.data.expense_ratio?.toFixed(2),
+      valueFormatter: (params) => params.data.expense_ratio?.toFixed(2),width: 180
     },
-    { headerName: "Risk", field: "sebi_risk", width: 165 },
+    { headerName: "Risk", field: "sebi_risk", width: 170 },
 
-    { width: 100, cellRenderer: DeleteMutualFund },
+    { width: 140, cellRenderer: DeleteMutualFund },
   ];
   const defaultColDef = useMemo(() => {
     return {
       // set the default column width
       width: 170,
       sortable: true,
-      resizable: true,
+      
     };
   }, []);
   

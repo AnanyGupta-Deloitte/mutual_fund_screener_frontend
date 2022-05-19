@@ -2,7 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./ContextApi/AuthProvider";
 const AdminDashboard = () => {
   const { isAdmin } = useContext(AuthContext);
-    console.log(isAdmin)
+//   const
+//   useEffect( () => {
+//     const data = getAllUsersForAdmin();
+//     console.log(data);
+//   }, []);
+  console.log(isAdmin);
   return (
     <>
       <h1>je</h1>

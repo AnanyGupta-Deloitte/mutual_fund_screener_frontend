@@ -16,7 +16,7 @@ const AuthProvider=({ children })=> {
             const today = new Date();
             const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             console.log(username,email,password,date)
-            const data = await axios.post("http://localhost:8080/mutual-fund/register", {
+            const data = await axios.post("https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/register", {
                 username: username,
                 email: email,
                 password: password,
@@ -33,7 +33,7 @@ const AuthProvider=({ children })=> {
     async function login(username, password) {
         try {
             
-            const data = await axios.post("http://localhost:8080/mutual-fund/log-in", {
+            const data = await axios.post("https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/log-in", {
                 username: username,
                 password: password
             });
@@ -41,7 +41,7 @@ const AuthProvider=({ children })=> {
             console.log("user",data.data);
             setUser(data.data);
             localStorage.setItem("user", JSON.stringify(data.data));
-            const flag = data.data.returnUserDetails.roles.some(el => el.id == 2)
+            const flag = data.data.returnUserDetails.roles.some(el => el.name == "ADMIN")
         
             setIsAdmin(flag);
             
@@ -53,6 +53,7 @@ const AuthProvider=({ children })=> {
         }
 
     }
+   
     function logout() {
         localStorage.removeItem("user")
 
@@ -61,17 +62,16 @@ const AuthProvider=({ children })=> {
     }
     async function addMFToWishlist(MFid) {
         try {
-            let api=`http://localhost:8080/mutual-fund/user/${user.returnUserDetails.id}/add-mutualFund-to-watchlist/${MFid}`;
-            let token = `Bearer ${user.jwtToken}`
+            let api=`https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/user/${user.returnUserDetails.id}/add-mutualFund-to-watchlist/${MFid}`;
+            let token = `Bearer ${user.returnUserDetails.token}`
             // console.log(token);
-            let updatedUserDetails = await axios.put(api, {
+            let updatedUserDetails = await axios.post(api, {
                 headers: {
                     'Authorization': token
                 }
               })
               user.returnUserDetails.wishList= updatedUserDetails.data.mutualFundWatchList
               let updatedUser={
-                  "jwtToken" : user.jwtToken,
                   returnUserDetails : user.returnUserDetails
   
               }
@@ -86,8 +86,8 @@ const AuthProvider=({ children })=> {
    
     async function removeMFFromWishList(MFid) {
         try {
-            let api=`http://localhost:8080/mutual-fund/remove-mutual-fund/${user.returnUserDetails.id}/from-user/${MFid}`;
-            let token = `Bearer ${user.jwtToken}`
+            let api=`https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/remove-mutual-fund/${user.returnUserDetails.id}/from-user/${MFid}`;
+            let token = `Bearer ${user.returnUserDetails.token}`
             let updatedUserDetails = await axios.delete(api, {
                 headers: {
                     'Authorization': token
@@ -96,7 +96,6 @@ const AuthProvider=({ children })=> {
             // console.log(updatedUserDetails);
             user.returnUserDetails.wishList= updatedUserDetails.data.mutualFundWatchList
             let updatedUser={
-                "jwtToken" : user.jwtToken,
                 returnUserDetails : user.returnUserDetails
                 
             }
@@ -113,7 +112,7 @@ const AuthProvider=({ children })=> {
         if (data) {
             data = JSON.parse(data);
             setUser(data);
-            const flag = data.returnUserDetails.roles.some(el => el.id === 2)
+            const flag = data.returnUserDetails.roles.some(el => el.name == "ADMIN")
             setIsAdmin(flag);
         } else {
             setIsAdmin(false);

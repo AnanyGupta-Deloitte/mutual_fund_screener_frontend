@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { Navigate } from "react-router";
 import Calculator from "./Components/Calculator";
-import ForgotPassword from "./Components/LoginComponents/ForgotPassword";
 import Login from "./Components/LoginComponents/Login";
 import Signup from "./Components/LoginComponents/Signup";
 import MutualFundPage from "./Components/UserComponents/MutualFundPage";
@@ -39,23 +38,19 @@ let App = () => {
                 <AdminDashboard />
               </Route>
             ) : (
-              ""
+              <Route path="/admin" exact>
+               <Redirect to="/"></Redirect>{" "}
+              </Route>
             )}
             <Route path="/login" exact>
               {" "}
               <Redirect to="/"></Redirect>{" "}
             </Route>
-            <Redirect to="/"></Redirect>
           </>
         ) : (
           <>
             <Route path="/" component={UserDashboard} exact></Route>
             <Route path="/calculator" component={Calculator}></Route>
-            <Route
-              path="/forgot-password"
-              component={ForgotPassword}
-              exact
-            ></Route>
             <Route path="/login" component={Login} exact></Route>
             <Route path="/signup" component={Signup} exact></Route>
             <Redirect to="/"></Redirect>

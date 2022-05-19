@@ -66,7 +66,7 @@ const MutualFundPage = () => {
         // console.log(isDataLoading);
       })
       .then(() => {
-        fetch(`http://localhost:8080/mutual-fund/${obj.id}`)
+        fetch(`https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/${obj.id}`)
           .then((resp) => resp.json())
           .then((data) => {
             setMFDetails(data);
@@ -143,11 +143,12 @@ const MutualFundPage = () => {
   const setMutualFundToWishList = async () => {
     if (!isMutualFundAdded) {
       await addMFToWishlist(obj.id);
-      console.log("added");
       setIsMutualFundAdded(true);
+      alert(`${mfDetails.name} has been added to the watchlist`)
     } else {
       removeMFFromWishList(obj.id);
       setIsMutualFundAdded(false);
+      alert(`${mfDetails.name} has been removed from the watchlist`)
     }
   };
 
@@ -180,7 +181,7 @@ const MutualFundPage = () => {
                 marginBottom: 2,
                 width: "20vw",
                 height: "40vh",
-                padding: 3,
+                padding: 2,
               }}
             >
               <IconButton onClick={setMutualFundToWishList}>

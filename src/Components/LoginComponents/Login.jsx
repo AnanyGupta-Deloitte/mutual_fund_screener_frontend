@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../ContextApi/AuthProvider";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
@@ -10,8 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import Poster from "./Poster";
-
+import img1 from "./utility/img1.jpg"
 let Login = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [username, setUsername] = useState("");
@@ -35,26 +34,28 @@ let Login = () => {
     if (!usernameError && !passwordError) {
       try {
         let data = await login(username, password);
-        if (!data)setServerError(true)
+        if (!data) setServerError(true);
       } catch (err) {
-        
         console.log(err);
       }
     }
   };
-  useEffect(() => {
-  }, [serverError]);
+  useEffect(() => {}, [serverError]);
   return (
     <Box
       sx={{
-        width: [0, 0, 340, 430, 480],
-        position: "fixed",
-        top: [0, 0, "25vh", "15vh", "14vh"],
-        left: [0, 0, "5vw", "5vw", "15vw"],
-        borderRadius: "1rem",
+        position:"fixed",
+        top:0,
+        left:0,
+        boxSizing: "border-box",
+        margin: "0",
+        padding: "0",
+        backgroundImage: `url(${img1})`,
+        backgroundSize: "cover",
+        width: "100vw",
+        height: "100vh",
       }}
     >
-      <Poster />
       <Box
         sx={{
           width: ["75vw", "62.5vw", "25vw", "25vw", "25vw"],
@@ -69,6 +70,7 @@ let Login = () => {
           position: "fixed",
           top: "20vh",
           right: [0, "12vw", "12vw", "12vw", "12vw"],
+          backgroundColor:"white"
         }}
       >
         <Typography variant="h3" color={"primary.main"}>
@@ -127,9 +129,17 @@ let Login = () => {
         >
           Login
         </Button>
-        {(!usernameError && !passwordError) ? (serverError? <Typography variant="subtitle1" color="error.main">
-          "Incorrect Username or Password"
-          </Typography>:""):""}
+        {!usernameError && !passwordError ? (
+          serverError ? (
+            <Typography variant="subtitle1" color="error.main">
+              "Incorrect Username or Password"
+            </Typography>
+          ) : (
+            ""
+          )
+        ) : (
+          ""
+        )}
         <Box>
           <Typography variant="subtitle1">
             <Link style={{ textDecoration: "none" }} to="/">
@@ -148,7 +158,6 @@ let Login = () => {
               Sign Up
             </Link>
           </Typography>
-          
         </Box>
       </Box>
     </Box>

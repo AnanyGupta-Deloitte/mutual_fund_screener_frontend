@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
 import { validate } from "react-email-validator";
 import { Link } from "react-router-dom";
+import img1 from "./utility/img1.jpg"
 import {
   TextField,
   Box,
@@ -11,7 +12,6 @@ import {
   Typography,
   InputAdornment,
 } from "@mui/material";
-import Poster from "./Poster";
 
 let Signup = () => {
   const { signup } = useContext(AuthContext);
@@ -67,15 +67,18 @@ let Signup = () => {
   return (
     <Box
       sx={{
+        position:"fixed",
+        top:0,
+        left:0,
         boxSizing: "border-box",
         margin: "0",
         padding: "0",
-
+        backgroundImage: `url(${img1})`,
+        backgroundSize: "cover",
         width: "100vw",
         height: "100vh",
       }}
     >
-      <Poster />
       <Box
         sx={{
           width: ["75vw", "62.5vw", "25vw", "25vw", "25vw"],
@@ -90,6 +93,7 @@ let Signup = () => {
           position: "fixed",
           top: "20vh",
           right: [0, "12vw", "12vw", "12vw", "12vw"],
+          backgroundColor:'white'
         }}
       >
         <Typography variant="h3" color={"primary.main"}>
