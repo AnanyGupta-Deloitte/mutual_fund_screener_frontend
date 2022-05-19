@@ -1,8 +1,8 @@
 import React from "react";
 import {
   Box,
-} from "@mui/material";
-import img1 from "../utility/img1.jpg";
+} from "@mui/material"; 
+import img1 from "./utility/img1.jpg";
 
 const Poster = () => {
     return (   

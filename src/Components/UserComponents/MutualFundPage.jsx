@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { Redirect, useParams } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import SpeedIcon from "@mui/icons-material/Speed";
@@ -21,13 +21,14 @@ import {
   Slider,
   IconButton,
 } from "@mui/material";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Navbar from "./DashBoardComponents/Navbar";
 import AppBar from "@mui/material/AppBar";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import { AuthContext } from "../ContextApi/AuthProvider";
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -37,37 +38,53 @@ Chart.register(
   Tooltip,
   Legend
 );
-const MutualFundPage = (props) => {
+const MutualFundPage = () => {
   const [investmentAmount, setInvestmentAmount] = useState(2000);
   const [duration, setDuration] = useState(2);
   const [result, setResult] = useState(0);
   const [principal, setPrincipal] = useState(0);
   const [interest, setInterest] = useState(0);
-  const [historicData, setHistoricData] = useState([]);
+  const [isMutualFundAdded, setIsMutualFundAdded] = useState(false);
   const [mfDetails, setMFDetails] = useState({});
   const [date, setDate] = useState([]);
   const [nav, setNav] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
   let obj = useParams();
+  const { user, addMFToWishlist, removeMFFromWishList } =
+    useContext(AuthContext);
 
   useEffect(() => {
     fetch(`https://api.mfapi.in/mf/${obj.id}`)
       .then((resp) => resp.json())
       .then((data) => {
         let filterData = data["data"];
-        filterData = filterData.slice(0, 100);
-        setHistoricData(filterData);
+        filterData = filterData.slice(0, 31);
         const dateArr = filterData.map((i) => i.date);
         const navArr = filterData.map((i) => i.nav);
         setDate(dateArr);
         setNav(navArr);
-        setMFDetails(props.location.query.data);
-        console.log("done loading");
+        // console.log(isDataLoading);
       })
       .then(() => {
-        setIsDataLoading(false);
+        fetch(`http://localhost:8080/mutual-fund/${obj.id}`)
+          .then((resp) => resp.json())
+          .then((data) => {
+            setMFDetails(data);
+            console.log("done loading");
+          })
+          .then(() => {
+            setIsDataLoading(false);
+          })
+          .then(() => {
+            if (user)
+              for (var j = 0; j < user.returnUserDetails.wishList.length; j++) {
+                if (user.returnUserDetails.wishList[j].id == obj.id)
+                  setIsMutualFundAdded(true);
+              }
+          });
       });
-  }, [props, obj]);
+  }, [obj, user]);
+
   const data = {
     labels: date,
     datasets: [
@@ -115,7 +132,7 @@ const MutualFundPage = (props) => {
   };
   useEffect(() => {
     calculateResultOfSIP();
-  });
+  }, []);
   const handleDurationChange = (e) => {
     let flag1 = e.target.value > 30;
     let flag2 = e.target.value < 1;
@@ -123,8 +140,19 @@ const MutualFundPage = (props) => {
     setDuration(value);
     calculateResultOfSIP();
   };
+  const setMutualFundToWishList = async () => {
+    if (!isMutualFundAdded) {
+      await addMFToWishlist(obj.id);
+      console.log("added");
+      setIsMutualFundAdded(true);
+    } else {
+      removeMFFromWishList(obj.id);
+      setIsMutualFundAdded(false);
+    }
+  };
 
   return (
+    
     <>
       {isDataLoading ? (
         <h1>Loading</h1>
@@ -147,16 +175,20 @@ const MutualFundPage = (props) => {
                 boxSizing: "border-box",
                 border: 1,
                 borderColor: "primary.light",
-                margin: "1vh",
                 borderRadius: "5%",
                 margin: 5,
+                marginBottom: 2,
                 width: "20vw",
                 height: "40vh",
                 padding: 3,
               }}
             >
-              <IconButton>
-                <BookmarkIcon />
+              <IconButton onClick={setMutualFundToWishList}>
+                {isMutualFundAdded ? (
+                  <BookmarkIcon />
+                ) : (
+                  <BookmarkBorderOutlinedIcon />
+                )}
               </IconButton>
               <Typography variant="h4" color="black" sx={{ marginBottom: 2 }}>
                 {mfDetails.name}
@@ -228,11 +260,11 @@ const MutualFundPage = (props) => {
 
             <Box
               sx={{
-                height: "45vh",
+                height: "40vh",
                 width: "70vw",
                 position: "absolute",
                 right: "5vh",
-                top: "5vh",
+                top: "1vh",
                 margin: 2,
               }}
             >
@@ -240,241 +272,237 @@ const MutualFundPage = (props) => {
             </Box>
             <Box
               sx={{
-                position: "fixed",
-                bottom: "1vh",
+                boxSizing: "border-box",
+                border: 1,
+                borderColor: "primary.light",
+                borderRadius: "5%",
+                margin: 5,
+                marginTop: 2,
+                width: "20vw",
                 height: "48vh",
-                width: "25vw",
-                left: 0,
-              }}
-            >
-              <Box
-                sx={{
-                  marginLeft: 5,
-                  border: 1,
-                  borderColor: "primary.light",
-                  borderRadius: 2,
-                  padding: 5,
-                  paddingTop: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-around",
-                  height: "80%",
-                }}
-              >
-                <Typography variant="h5" marginTop="1rem">
-                  SIP Calculator
-                </Typography>
-                <TextField
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <CurrencyRupeeIcon />
-                      </InputAdornment>
-                    ),
-                    inputProps: { min: 0, max: 50000 },
-                  }}
-                  id="standard-required"
-                  label="SIP Amount"
-                  size="large"
-                  variant="outlined"
-                  value={investmentAmount}
-                  type="number"
-                  onChange={(e) => {
-                    let flag1 = e.target.value > 50000;
-                    let flag2 = e.target.value < 0;
-                    let value = flag1 ? 50000 : flag2 ? 0 : e.target.value;
-                    setInvestmentAmount(value);
-                    calculateResultOfSIP();
-                  }}
-                />
-                <Slider
-                  value={investmentAmount}
-                  min={100}
-                  max={50000}
-                  size="medium"
-                  onChange={(e) => {
-                    setInvestmentAmount(e.target.value);
-                    calculateResultOfSIP();
-                  }}
-                />
-
-                <TextField
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">years</InputAdornment>
-                    ),
-                    inputProps: { min: 1, max: 30 },
-                  }}
-                  id="standard-required"
-                  label="SIP Period"
-                  size="large"
-                  variant="outlined"
-                  value={duration}
-                  type="number"
-                  onChange={(e) => {
-                    handleDurationChange(e);
-                  }}
-                />
-
-                <Slider
-                  size="medium"
-                  value={duration}
-                  min={1}
-                  max={30}
-                  onChange={(e) => {
-                    handleDurationChange(e);
-                  }}
-                />
-
-                <Typography variant="h6" color="success.dark">
-                  Wealth Gained :
-                  <Typography
-                    variant="h6"
-                    display="inline"
-                    color="success.main"
-                  >
-                    <CurrencyRupeeIcon />
-                    {interest}
-                  </Typography>
-                </Typography>
-                <Typography variant="h6" color="success.dark">
-                  Invested Amount :
-                  <Typography
-                    variant="h6"
-                    display="inline"
-                    color="success.main"
-                  >
-                    <CurrencyRupeeIcon />
-                    {principal}
-                  </Typography>
-                </Typography>
-                <Typography variant="h6" color="success.dark">
-                  Total Wealth :
-                  <Typography
-                    variant="h6"
-                    display="inline"
-                    color="success.main"
-                  >
-                    <CurrencyRupeeIcon />
-                    {result}
-                  </Typography>
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                position: "fixed",
-                bottom: "20vh",
-                height: "20vh",
-                width: "70vw",
-                right: 0,
+                padding: 2,
+                bottom: 0,
                 display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: 3,
+                flexDirection: "column",
+                justifyContent: "space-around",
+                gap: 2,
               }}
             >
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 1,
-                  width: "20%",
-                  height: "7rem",
-                  padding: 2,
+              <Typography variant="h5" marginTop="1rem">
+                SIP Calculator
+              </Typography>
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <CurrencyRupeeIcon />
+                    </InputAdornment>
+                  ),
+                  inputProps: { min: 0, max: 50000 },
                 }}
-              >
-                <Typography
-                  variant="h5"
-                  color="primary.main"
-                  display="flex"
-                  alignItems="center"
-                >
-                  Plan
-                </Typography>
-                <Typography variant="h6">{mfDetails.plan}</Typography>
-              </Box>
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 1,
-                  width: "15rem",
-                  height: "7rem",
-                  padding: 2,
+                id="standard-required"
+                label="SIP Amount"
+                size="large"
+                variant="outlined"
+                value={investmentAmount}
+                type="number"
+                onChange={(e) => {
+                  let flag1 = e.target.value > 50000;
+                  let flag2 = e.target.value < 0;
+                  let value = flag1 ? 50000 : flag2 ? 0 : e.target.value;
+                  setInvestmentAmount(value);
+                  calculateResultOfSIP();
                 }}
-              >
-                <Typography
-                  variant="h5"
-                  color="primary.main"
-                  display="flex"
-                  alignItems="center"
-                >
-                  Sub Category
-                </Typography>
-                <Typography variant="h6">{mfDetails.sub_category}</Typography>
-              </Box>
+              />
+              <Slider
+                value={investmentAmount}
+                min={100}
+                max={50000}
+                size="medium"
+                onChange={(e) => {
+                  setInvestmentAmount(e.target.value);
+                  calculateResultOfSIP();
+                }}
+              />
 
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 1,
-                  width: "15rem",
-                  height: "7rem",
-                  padding: 2,
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">years</InputAdornment>
+                  ),
+                  inputProps: { min: 1, max: 30 },
                 }}
-              >
-                <Typography
-                  variant="h5"
-                  color="primary.main"
-                  display="flex"
-                  alignItems="center"
-                >
-                  <PointOfSaleIcon /> Assets Under Management
-                </Typography>
-                <Typography variant="h6">Rs. {mfDetails.aum} cr</Typography>
-              </Box>
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 1,
-                  width: "15rem",
-                  height: "7rem",
-                  padding: 2,
+                id="standard-required"
+                label="SIP Period"
+                size="large"
+                variant="outlined"
+                value={duration}
+                type="number"
+                onChange={(e) => {
+                  handleDurationChange(e);
                 }}
-              >
-                <Typography
-                  variant="h5"
-                  color="primary.main"
-                  display="flex"
-                  alignItems="center"
-                >
-                  <SpeedIcon /> Risk
+              />
+
+              <Slider
+                size="medium"
+                value={duration}
+                min={1}
+                max={30}
+                onChange={(e) => {
+                  handleDurationChange(e);
+                }}
+              />
+
+              <Typography variant="h5" color="success.dark">
+                Wealth Gained :
+                <Typography variant="h6" display="inline" color="success.main">
+                  <CurrencyRupeeIcon />
+                  {interest}
                 </Typography>
-                <Typography variant="h6">{mfDetails.sebi_risk} </Typography>
-              </Box>
+              </Typography>
+              <Typography variant="h5" color="success.dark">
+                Invested Amount :
+                <Typography variant="h6" display="inline" color="success.main">
+                  <CurrencyRupeeIcon />
+                  {principal}
+                </Typography>
+              </Typography>
+              <Typography variant="h5" color="success.dark">
+                Total Wealth :
+                <Typography variant="h6" display="inline" color="success.main">
+                  <CurrencyRupeeIcon />
+                  {result}
+                </Typography>
+              </Typography>
             </Box>
-
             <Box
               sx={{
                 position: "fixed",
                 bottom: "1vh",
-                height: "20vh",
+                height: "40vh",
                 width: "70vw",
                 right: 0,
               }}
             >
-              <Typography variant="h5">Key Metrics</Typography>
-              <table width='50%'>
-                <tr>
-                  <td><h4>Growth Rate</h4></td>
-                  <td><h4>Expense Ratio</h4></td>
-                  
-                </tr>
-                <tr>
-                  <td>{mfDetails.cagr}%</td>
-                  <td>{mfDetails.expense_ratio}%</td>
-                  
-                </tr>
-              </table>
+              <Box
+                sx={{
+                  position: "fixed",
+                  bottom: "20vh",
+                  height: "20vh",
+                  width: "70vw",
+                  right: 0,
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  gap: 3,
+                }}
+              >
+                <Box
+                  sx={{
+                    border: 1,
+                    borderRadius: 1,
+                    width: "20%",
+                    height: "7rem",
+                    padding: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    color="primary.main"
+                    display="flex"
+                    alignItems="center"
+                  >
+                    Plan
+                  </Typography>
+                  <Typography variant="h6">{mfDetails.plan}</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    border: 1,
+                    borderRadius: 1,
+                    width: "15rem",
+                    height: "7rem",
+                    padding: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    color="primary.main"
+                    display="flex"
+                    alignItems="center"
+                  >
+                    Sub Category
+                  </Typography>
+                  <Typography variant="h6">{mfDetails.sub_category}</Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    border: 1,
+                    borderRadius: 1,
+                    width: "15rem",
+                    height: "7rem",
+                    padding: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    color="primary.main"
+                    display="flex"
+                    alignItems="center"
+                  >
+                    <PointOfSaleIcon /> Assets Under Management
+                  </Typography>
+                  <Typography variant="h6">Rs. {mfDetails.aum} cr</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    border: 1,
+                    borderRadius: 1,
+                    width: "15rem",
+                    height: "7rem",
+                    padding: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    color="primary.main"
+                    display="flex"
+                    alignItems="center"
+                  >
+                    <SpeedIcon /> Risk
+                  </Typography>
+                  <Typography variant="h6">{mfDetails.sebi_risk} </Typography>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  position: "fixed",
+                  bottom: "1vh",
+                  height: "20vh",
+                  width: "70vw",
+                  right: 0,
+                }}
+              >
+                <Typography variant="h5">Key Metrics</Typography>
+                <table width="50%">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h4>Growth Rate</h4>
+                      </td>
+                      <td>
+                        <h4>Expense Ratio</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{mfDetails.cagr}%</td>
+                      <td>{mfDetails.expense_ratio}%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </Box>
             </Box>
           </Box>
         </>

@@ -11,6 +11,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import PlanFilter from "./Filters/PlanFilter";
 import SubCategoryFilter from "./Filters/SubCategoryFilter";
 import RiskFilter from "./Filters/RiskFilter";
+
 const Filters = () => {
   const [plan, setPlan] = useState("All");
   const [risk, setRisk] = useState("All");
@@ -53,7 +54,7 @@ const Filters = () => {
             margin:"1vh 0 3vh 1vh"
           }}
         >
-          <Box>
+          <Box sx={{padding:1}}>
             <Box
               sx={{
                 display: "flex",
