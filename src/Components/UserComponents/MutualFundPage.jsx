@@ -1,4 +1,4 @@
-import { Redirect, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import React, { useContext, useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
@@ -78,7 +78,7 @@ const MutualFundPage = () => {
           .then(() => {
             if (user)
               for (var j = 0; j < user.returnUserDetails.wishList.length; j++) {
-                if (user.returnUserDetails.wishList[j].id == obj.id)
+                if (Number(user.returnUserDetails.wishList[j].id) === Number(obj.id))
                   setIsMutualFundAdded(true);
               }
           });

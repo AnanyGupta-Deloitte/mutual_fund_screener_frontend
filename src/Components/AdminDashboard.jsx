@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext} from "react";
 import { AuthContext } from "./ContextApi/AuthProvider";
 const AdminDashboard = () => {
   const { isAdmin } = useContext(AuthContext);

@@ -7,7 +7,6 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { Navigate } from "react-router";
 import Calculator from "./Components/Calculator";
 import Login from "./Components/LoginComponents/Login";
 import Signup from "./Components/LoginComponents/Signup";

@@ -18,7 +18,7 @@ let Login = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const [serverError, setServerError] = useState(false);
-  const { login, user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const handleLogin = async () => {
     // console.log("password : ", password)
     if (!password) {

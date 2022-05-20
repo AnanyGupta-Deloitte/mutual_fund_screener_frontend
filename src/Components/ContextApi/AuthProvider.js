@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext,useMemo } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 export const AuthContext = React.createContext();
@@ -41,7 +41,7 @@ const AuthProvider=({ children })=> {
             console.log("user",data.data);
             setUser(data.data);
             localStorage.setItem("user", JSON.stringify(data.data));
-            const flag = data.data.returnUserDetails.roles.some(el => el.name == "ADMIN")
+            const flag = data.data.returnUserDetails.roles.some(el => el.name === "ADMIN")
         
             setIsAdmin(flag);
             
@@ -112,7 +112,7 @@ const AuthProvider=({ children })=> {
         if (data) {
             data = JSON.parse(data);
             setUser(data);
-            const flag = data.returnUserDetails.roles.some(el => el.name == "ADMIN")
+            const flag = data.returnUserDetails.roles.some(el => el.name === "ADMIN")
             setIsAdmin(flag);
         } else {
             setIsAdmin(false);
