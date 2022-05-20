@@ -10,7 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import img1 from "./utility/img1.jpg"
+import img1 from "./utility/img1.jpg";
 let Login = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [username, setUsername] = useState("");
@@ -34,7 +34,11 @@ let Login = () => {
     if (!usernameError && !passwordError) {
       try {
         let data = await login(username, password);
-        if (!data) setServerError(true);
+        if (!data) {
+          setServerError(true);
+          setUsername("");
+          setPassword("");
+        }
       } catch (err) {
         console.log(err);
       }
@@ -44,9 +48,9 @@ let Login = () => {
   return (
     <Box
       sx={{
-        position:"fixed",
-        top:0,
-        left:0,
+        position: "fixed",
+        top: 0,
+        left: 0,
         boxSizing: "border-box",
         margin: "0",
         padding: "0",
@@ -70,7 +74,7 @@ let Login = () => {
           position: "fixed",
           top: "20vh",
           right: [0, "12vw", "12vw", "12vw", "12vw"],
-          backgroundColor:"white"
+          backgroundColor: "white",
         }}
       >
         <Typography variant="h3" color={"primary.main"}>

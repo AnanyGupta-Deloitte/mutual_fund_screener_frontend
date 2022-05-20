@@ -29,7 +29,7 @@ const DeleteMutualFund = (p) => {
   let {removeMFFromWishList } = useContext(AuthContext);
 
   const click = async() => {
-    console.log(p.data);
+    // console.log(p.data);
     await removeMFFromWishList(p.data.id);
   };
   return (
@@ -99,7 +99,7 @@ const UserProfile = () => {
       for (var j = 0; j < user?.returnUserDetails?.wishList?.length; j++) {
         list.push(user.returnUserDetails.wishList[j]);
       }
-      console.log(list);
+      // console.log(list);
       setRowData(list);
     }
   }, [user]);
@@ -121,8 +121,8 @@ const UserProfile = () => {
 
       }}>
         <Avatar
-          alt={name}
-          src={name}
+          alt={name.toUpperCase()}
+          src={name.toUpperCase()}
           sx={{ width: 100, height: 100 }}
         />
         <Box>
@@ -162,8 +162,8 @@ const UserProfile = () => {
                   rowData={rowData}
                   columnDefs={columnDefs}
                   defaultColDef={defaultColDef}
-                  paginationAutoPageSize={true}
-                  pagination={true}
+                  // paginationAutoPageSize={true}
+                  // pagination={true}
                 ></AgGridReact>
               </div>
             </div>

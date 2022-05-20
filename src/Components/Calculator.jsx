@@ -11,8 +11,8 @@ import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import AppBar from "@mui/material/AppBar";
-import { Doughnut } from "react-chartjs-2";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Title, Legend } from "chart.js";
 Chart.register(ArcElement, Tooltip, Title, Legend);
 const Calculator = () => {

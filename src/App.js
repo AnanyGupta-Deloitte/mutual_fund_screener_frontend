@@ -17,7 +17,6 @@ import AdminDashboard from "./Components/AdminDashboard";
 
 let App = () => {
   const { user, isAdmin } = useContext(AuthContext);
-  console.log(isAdmin);
 
   return (
     <Router>
@@ -38,7 +37,7 @@ let App = () => {
               </Route>
             ) : (
               <Route path="/admin" exact>
-               <Redirect to="/"></Redirect>{" "}
+                <Redirect to="/"></Redirect>{" "}
               </Route>
             )}
             <Route path="/login" exact>

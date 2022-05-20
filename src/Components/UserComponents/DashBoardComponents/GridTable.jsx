@@ -71,9 +71,9 @@ const GridTable = (props) => {
       resizable: true,
     };
   }, []);
-
+  
   useEffect(() => {
-   fetch("http://localhost:8080/mutual-fund/all-mutual-funds")
+   fetch("https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/all-mutual-funds")
       .then((resp) => resp.json())
       .then((data) => {
         // console.log(data)

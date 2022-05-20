@@ -1,4 +1,4 @@
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import React, { useContext, useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
@@ -66,11 +66,13 @@ const MutualFundPage = () => {
         // console.log(isDataLoading);
       })
       .then(() => {
-        fetch(`https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/${obj.id}`)
+        fetch(
+          `https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/${obj.id}`
+        )
           .then((resp) => resp.json())
           .then((data) => {
             setMFDetails(data);
-            console.log("done loading");
+            // console.log("done loading");
           })
           .then(() => {
             setIsDataLoading(false);
@@ -78,7 +80,10 @@ const MutualFundPage = () => {
           .then(() => {
             if (user)
               for (var j = 0; j < user.returnUserDetails.wishList.length; j++) {
-                if (Number(user.returnUserDetails.wishList[j].id) === Number(obj.id))
+                if (
+                  Number(user.returnUserDetails.wishList[j].id) ===
+                  Number(obj.id)
+                )
                   setIsMutualFundAdded(true);
               }
           });
@@ -144,19 +149,22 @@ const MutualFundPage = () => {
     if (!isMutualFundAdded) {
       await addMFToWishlist(obj.id);
       setIsMutualFundAdded(true);
-      alert(`${mfDetails.name} has been added to the watchlist`)
+      alert(`${mfDetails.name} has been added to the watchlist`);
     } else {
       removeMFFromWishList(obj.id);
       setIsMutualFundAdded(false);
-      alert(`${mfDetails.name} has been removed from the watchlist`)
+      alert(`${mfDetails.name} has been removed from the watchlist`);
     }
   };
 
   return (
-    
     <>
       {isDataLoading ? (
-        <h1>Loading</h1>
+          <Typography variant='h1' color="primary.main" sx={{
+            position:"fixed",
+            top:"40vh",
+            left:"40vw"
+          }}>Loading</Typography>
       ) : (
         <>
           <AppBar position="fixed" height="5vh">
