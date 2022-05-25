@@ -17,7 +17,7 @@ let Login = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
-  const [serverError, setServerError] = useState(false);
+  const [serverError, setServerError] = useState("");
   const { login } = useContext(AuthContext);
   const handleLogin = async () => {
     // console.log("password : ", password)
@@ -34,10 +34,15 @@ let Login = () => {
     if (!usernameError && !passwordError) {
       try {
         let data = await login(username, password);
-        if (!data) {
-          setServerError(true);
-          setUsername("");
-          setPassword("");
+        // console.log(data.data);
+        if (!data.returnUserDetails) {
+          if(data?.data=== "Confirm your email before logging in!"){
+            setServerError("Confirm your email before logging in!");
+          }
+          else{
+            setServerError("Incorrect Email Id or Password");
+
+          }
         }
       } catch (err) {
         console.log(err);
@@ -133,21 +138,20 @@ let Login = () => {
         >
           Login
         </Button>
-        {!usernameError && !passwordError ? (
-          serverError ? (
+        {serverError ? (
             <Typography variant="subtitle1" color="error.main">
-              "Incorrect Username or Password"
+              {serverError}
             </Typography>
-          ) : (
-            ""
-          )
-        ) : (
-          ""
-        )}
+          ) : ""}
         <Box>
           <Typography variant="subtitle1">
             <Link style={{ textDecoration: "none" }} to="/">
               Go Back to Home
+            </Link>
+          </Typography>
+          <Typography variant="subtitle1">
+            <Link style={{ textDecoration: "none" }} to="/forgot-password">
+              Forgot-Password
             </Link>
           </Typography>
           <Typography variant="subtitle1">

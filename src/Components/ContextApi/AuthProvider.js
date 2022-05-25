@@ -9,7 +9,7 @@ export function useAuth() {
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [isAdmin, setIsAdmin] = useState(false);
-  const [ userList, setUserList]= useState([]);
+  const [userList, setUserList] = useState([]);
   async function signup(username, email, password) {
     try {
       const today = new Date();
@@ -19,22 +19,21 @@ const AuthProvider = ({ children }) => {
         (today.getMonth() + 1) +
         "-" +
         today.getDate();
-      console.log(username, email, password, date);
+      // console.log(username, email, password, date);
       const data = await axios({
-        method: 'post',
-        url: 'https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/register',
+        method: "post",
+        url: "https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/register",
         data: {
           username: username,
           email: email,
           password: password,
           createdAt: date.toString(),
-          
         },
-        headers: { 
-          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5"
-        }
-      })
-      console.log(data)
+        headers: {
+          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5",
+        },
+      });
+      // console.log(data);
       return data;
     } catch (err) {
       // console.log(err.response);
@@ -51,8 +50,9 @@ const AuthProvider = ({ children }) => {
         }
       );
 
-      console.log("user", data.data);
+      // console.log("user", data.data);
       setUser(data.data);
+
       localStorage.setItem("user", JSON.stringify(data.data));
       const flag = data.data.returnUserDetails.roles.some(
         (el) => el.name === "ADMIN"
@@ -62,7 +62,8 @@ const AuthProvider = ({ children }) => {
 
       return data.data;
     } catch (err) {
-      console.log(err.response);
+      // console.log(err.response);
+      return err.response;
     }
   }
 
@@ -75,12 +76,11 @@ const AuthProvider = ({ children }) => {
   async function addMFToWishlist(MFid) {
     try {
       let api = `https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/user/${user.returnUserDetails.id}/add-mutualFund-to-watchlist/${MFid}`;
-      // console.log(api);
       let token = `Bearer ${user.returnUserDetails.token}`;
-      // console.log(token);
       let updatedUserDetails = await axios.post(api, {
         headers: {
           Authorization: token,
+          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5",
         },
       });
       user.returnUserDetails.wishList =
@@ -102,6 +102,7 @@ const AuthProvider = ({ children }) => {
       let updatedUserDetails = await axios.delete(api, {
         headers: {
           Authorization: token,
+          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5",
         },
       });
       // console.log(updatedUserDetails);
@@ -131,24 +132,24 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  async function getAllUsers(){
+  async function getAllUsers() {
     try {
       let api = `https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/admin/get-all-users`;
       let token = `Bearer ${user.returnUserDetails.token}`;
       let data = await axios.get(api, {
         headers: {
           Authorization: token,
-          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5"
+          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5",
         },
       });
-      if(userList.length===0){
+      if (userList.length === 0) {
         setUserList(data.data);
       }
     } catch (err) {
       console.log(err);
     }
   }
-  async function deleteUser(userId){
+  async function deleteUser(userId) {
     try {
       let api = `https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/admin/delete-account/${userId}`;
       let token = `Bearer ${user.returnUserDetails.token}`;
@@ -156,14 +157,64 @@ const AuthProvider = ({ children }) => {
       await axios.delete(api, {
         headers: {
           Authorization: token,
-          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5"
+          "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5",
         },
       });
       setUserList([]);
     } catch (err) {
       console.log(err);
     }
+  }
+  function generateToken(length) {
+    let result = "";
+    let characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+  async function forgotPassword(username, emailId) {
+    try {
+      let api = `https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/forgot-password/`;
+      let key = generateToken(252);
+      console.log(key);
+      let data = await axios.post(api, {
+        userEmail: emailId,
+        userName: username,
+        token: key,
+      });
+      return data;
+    } catch (err) {
+      console.log(err.response);
+      return err;
+    }
+  }
+  async function resetPassword(username, password) {
+    try {
+      let api = `https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/update-password/${username}`;
+      let data = await axios.put(api, {
+        newPassword: password,
+      });
+      console.log(data);
+      return data;
+    } catch (err) {
+      // console.log(err);
+      return err;
+    }
+  }
+  async function confirmEmail(username, password) {
+    try {
+      let api = `https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/set-confirm-email/${username}`;
 
+      let data = await axios.put(api);
+      console.log(data);
+      return data;
+    } catch (err) {
+      // console.log(err);
+      return err;
+    }
   }
   useEffect(() => {
     // console.log("in useEffect")
@@ -171,13 +222,19 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const value = {
+    confirmEmail,
+    forgotPassword,
     isAdmin,
-    user,userList,
+    user,
+    userList,
+    resetPassword,
     login,
     signup,
     logout,
     addMFToWishlist,
-    removeMFFromWishList,getAllUsers,deleteUser
+    removeMFFromWishList,
+    getAllUsers,
+    deleteUser,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

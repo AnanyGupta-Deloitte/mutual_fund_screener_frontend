@@ -121,7 +121,6 @@ let Signup = () => {
           helperText={
             invalidEmailId!=="" ? invalidEmailId: ""
           }
-          he
         />
         <TextField
           id="standard-password-input"
@@ -159,12 +158,11 @@ let Signup = () => {
         size="large"
         variant="outlined"
         endIcon={<LoginIcon />}
-        onClick={handleSignUp}
         color="success"
         >
            <Link style={{ textDecoration: "none" }} to="/login">
               {" "}
-            Signup Successful go to Login page
+            Signup Successful please verify and go to Login page
             </Link>
         </Button>
         :

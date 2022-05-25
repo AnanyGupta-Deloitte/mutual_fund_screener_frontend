@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState,useContext } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -6,14 +6,13 @@ import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 import { AuthContext } from "../../ContextApi/AuthProvider";
 const MutualFundComponent = (p) => {
-  let {user} = useContext(AuthContext)
+  let { user } = useContext(AuthContext);
   let path = `/mutualfunds/${p.data.id}`;
-  if(!user) path ="/login"
+  if (!user) path = "/login";
 
   return (
-    
     <Link
-      style={{ textDecoration: "none" ,color: "blue" }}
+      style={{ textDecoration: "none", color: "blue" }}
       to={{
         pathname: path,
       }}
@@ -25,7 +24,7 @@ const MutualFundComponent = (p) => {
 
 const GridTable = (props) => {
   const [rowData, setRowData] = useState();
-  const columnDefs=[
+  const columnDefs = [
     {
       headerName: "Fund Id",
       field: "id",
@@ -49,18 +48,28 @@ const GridTable = (props) => {
       field: "aum",
       width: 250,
       valueFormatter: (params) => params.data.aum.toFixed(2),
+      headerTooltip:
+        `AUM is the total market value of the investments that a person or entity manages on behalf of clients.`,
     },
     {
       headerName: "Growth Rate",
       field: "cagr",
       valueFormatter: (params) => params.data.cagr.toFixed(2),
+      headerTooltip: "The growth rate is the rate of return required for an investment to grow from its beginning balance to its ending balance when interest is compounded.",
+      maxWidth:'200'
     },
     {
       headerName: "Expense Ratio",
       field: "expense_ratio",
       valueFormatter: (params) => params.data.expense_ratio?.toFixed(2),
+      headerTooltip: "The % amount that the Mutual Fund manager takes as a fee for their service",
     },
-    { headerName: "Risk", field: "sebi_risk", width: 165 },
+    {
+      headerName: "Risk",
+      field: "sebi_risk",
+      width: 165,
+      headerTooltip: "It is the risk of change in the Net Asset Value of a Mutual Fund ",
+    },
   ];
 
   const defaultColDef = useMemo(() => {
@@ -71,9 +80,11 @@ const GridTable = (props) => {
       resizable: true,
     };
   }, []);
-  
+
   useEffect(() => {
-   fetch("https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/all-mutual-funds")
+    fetch(
+      "https://mutual-fund-screener-backend-urtjok3rza-wl.a.run.app/mutual-fund/all-mutual-funds"
+    )
       .then((resp) => resp.json())
       .then((data) => {
         // console.log(data)
@@ -131,6 +142,7 @@ const GridTable = (props) => {
               defaultColDef={defaultColDef}
               paginationAutoPageSize={true}
               pagination={true}
+              tooltipShowDelay={300}
             ></AgGridReact>
           </div>
         </div>

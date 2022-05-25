@@ -94,8 +94,8 @@ const UserProfile = () => {
   useEffect(() => {
     let list = [];
     if (user){
-      setName(user?.returnUserDetails?.userName);
-      setEmail(user?.returnUserDetails?.email);
+      setName(user?.returnUserDetails?.userName.toUpperCase());
+      setEmail(user?.returnUserDetails?.email.toLowerCase());
       for (var j = 0; j < user?.returnUserDetails?.wishList?.length; j++) {
         list.push(user.returnUserDetails.wishList[j]);
       }
@@ -121,14 +121,14 @@ const UserProfile = () => {
 
       }}>
         <Avatar
-          alt={name.toUpperCase()}
-          src={name.toUpperCase()}
+          alt={name}
+          src={name}
           sx={{ width: 100, height: 100 }}
         />
         <Box>
 
-        <Typography variant="h2" color="primary.main">{name}</Typography>
-        <Typography variant="h2" color="primary.main">{email}</Typography>
+        <Typography variant="h4" color="primary.main">{name}</Typography>
+        <Typography variant="h4" color="primary.main">{email}</Typography>
         </Box>
       </Box>
       <Box
@@ -143,7 +143,7 @@ const UserProfile = () => {
           justifyContent: "flex-start",
         }}
       >
-        <Typography variant="h2" color="primary.light">
+        <Typography variant="h4" color="primary.light">
           WatchList
         </Typography>
         <Box

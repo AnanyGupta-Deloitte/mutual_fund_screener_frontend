@@ -137,7 +137,7 @@ const MutualFundPage = () => {
   };
   useEffect(() => {
     calculateResultOfSIP();
-  }, []);
+  }, [calculateResultOfSIP]);
   const handleDurationChange = (e) => {
     let flag1 = e.target.value > 30;
     let flag2 = e.target.value < 1;
@@ -160,11 +160,17 @@ const MutualFundPage = () => {
   return (
     <>
       {isDataLoading ? (
-          <Typography variant='h1' color="primary.main" sx={{
-            position:"fixed",
-            top:"40vh",
-            left:"40vw"
-          }}>Loading</Typography>
+        <Typography
+          variant="h1"
+          color="primary.main"
+          sx={{
+            position: "fixed",
+            top: "40vh",
+            left: "40vw",
+          }}
+        >
+          Loading
+        </Typography>
       ) : (
         <>
           <AppBar position="fixed" height="5vh">

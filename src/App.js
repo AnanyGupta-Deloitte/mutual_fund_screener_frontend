@@ -14,6 +14,9 @@ import MutualFundPage from "./Components/UserComponents/MutualFundPage";
 import UserDashboard from "./Components/UserComponents/UserDashboard";
 import UserProfile from "./Components/UserComponents/UserProfile";
 import AdminDashboard from "./Components/AdminDashboard";
+import ForgetPassword from "./Components/LoginComponents/ForgotPassword";
+import ResetPassword from "./Components/LoginComponents/ResetPassword";
+import ConfirmEmail from "./Components/LoginComponents/ConfirmEmail";
 
 let App = () => {
   const { user, isAdmin } = useContext(AuthContext);
@@ -50,8 +53,29 @@ let App = () => {
             <Route path="/" component={UserDashboard} exact></Route>
             <Route path="/calculator" component={Calculator}></Route>
             <Route path="/login" component={Login} exact></Route>
+            <Route
+              path="/forgot-password"
+              component={ForgetPassword}
+              exact
+            ></Route>
             <Route path="/signup" component={Signup} exact></Route>
-            <Redirect to="/"></Redirect>
+            <Route
+              path="/reset-password/:username"
+              component={ResetPassword}
+            ></Route>
+            <Route
+              path="/confirm-email/:username"
+              component={ConfirmEmail}
+            ></Route>
+            <Route path="/mutualfunds/:id" exact>
+              <Redirect to="/"></Redirect>{" "}
+            </Route>
+            <Route path="/admin" exact>
+              <Redirect to="/"></Redirect>{" "}
+            </Route>
+            <Route path="/userprofile" exact>
+              <Redirect to="/"></Redirect>{" "}
+            </Route>
           </>
         )}
       </Switch>
