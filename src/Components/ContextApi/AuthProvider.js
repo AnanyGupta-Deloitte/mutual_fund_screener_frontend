@@ -220,7 +220,7 @@ const AuthProvider = ({ children }) => {
     // console.log("in useEffect")
     updateUserFromStorage();
   }, []);
-
+  
   const value = {
     confirmEmail,
     forgotPassword,
