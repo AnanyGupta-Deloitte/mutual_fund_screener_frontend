@@ -9,6 +9,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { Link } from "react-router-dom";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import { AuthContext } from "../../ContextApi/AuthProvider";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 const Navbar = () => {
   const { user, logout, isAdmin } = useContext(AuthContext);
   const [name, setName] = useState("");
@@ -38,6 +39,17 @@ const Navbar = () => {
           marginRight: "1vh",
         }}
       >
+        {" "}
+        <Tooltip title="Knowledge Center">
+          <Link style={{ color: "#FFF" }} to="/about">
+            <LibraryBooksIcon fontSize="large" />
+          </Link>
+        </Tooltip>
+        <Tooltip title="SIP Calculator ">
+          <Link style={{ color: "#FFF" }} to="/calculator">
+            <CalculateIcon fontSize="large" />
+          </Link>
+        </Tooltip>
         {isAdmin ? (
           <Tooltip title="Admin Dashboard">
             <Link style={{ color: "#FFF" }} to={isAdmin ? "/admin" : "/"}>
@@ -47,38 +59,32 @@ const Navbar = () => {
         ) : (
           ""
         )}
-        <Tooltip title="SIP Calculator ">
-          <Link style={{ color: "#FFF" }} to="/calculator">
-            <CalculateIcon fontSize="large" />
-          </Link>
-        </Tooltip>
         {user ? (
           <>
-                <Tooltip title="User Profile">
-
-            <Link
-              style={{
-                color: "#FFF",
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-around",
-                // width: "10vw"
-              }}
-              to={user ? "/userprofile" : "/login"}
-            >
-              <AccountCircle fontSize="large" />
-              <Typography display="inline" variant="h6">
-                {name}
-              </Typography>
-            </Link>
+            <Tooltip title="User Profile">
+              <Link
+                style={{
+                  color: "#FFF",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-around",
+                  // width: "10vw"
+                }}
+                to={user ? "/userprofile" : "/login"}
+              >
+                <AccountCircle fontSize="large" />
+                <Typography display="inline" variant="h6">
+                  {name}
+                </Typography>
+              </Link>
             </Tooltip>
             <Button
               variant="contained"
               disableElevation
               color="secondary"
               onClick={clickFunc}
-              >
+            >
               {" "}
               Logout
             </Button>

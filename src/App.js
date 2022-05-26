@@ -17,7 +17,7 @@ import AdminDashboard from "./Components/AdminDashboard";
 import ForgetPassword from "./Components/LoginComponents/ForgotPassword";
 import ResetPassword from "./Components/LoginComponents/ResetPassword";
 import ConfirmEmail from "./Components/LoginComponents/ConfirmEmail";
-
+import InformationPage from './Components/InformationPage'
 let App = () => {
   const { user, isAdmin } = useContext(AuthContext);
 
@@ -47,10 +47,12 @@ let App = () => {
               {" "}
               <Redirect to="/"></Redirect>{" "}
             </Route>
+            <Route path="/about" component={InformationPage} exact></Route>
           </>
         ) : (
           <>
             <Route path="/" component={UserDashboard} exact></Route>
+            <Route path="/about" component={InformationPage} exact></Route>
             <Route path="/calculator" component={Calculator}></Route>
             <Route path="/login" component={Login} exact></Route>
             <Route
