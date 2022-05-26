@@ -5,6 +5,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 import { AuthContext } from "../../ContextApi/AuthProvider";
+import CustomHeader from "./CustomHeader";
 const MutualFundComponent = (p) => {
   let { user } = useContext(AuthContext);
   let path = `/mutualfunds/${p.data.id}`;
@@ -32,6 +33,7 @@ const GridTable = (props) => {
       floatingFilter: true,
       cellRenderer: MutualFundComponent,
       width: 100,
+      suppressMenu: true,
     },
     {
       headerName: "Mutual Fund",
@@ -40,43 +42,66 @@ const GridTable = (props) => {
       floatingFilter: true,
       cellRenderer: MutualFundComponent,
       width: 280,
+      suppressMenu: true,
     },
-    { headerName: "Plan", field: "plan", width: 100 },
-    { headerName: "Sub Category", field: "sub_category", width: 240 },
+    { headerName: "Plan", suppressMenu: true, field: "plan", width: 100 },
+    {
+      headerName: "Sub Category",
+      suppressMenu: true,
+      field: "sub_category",
+      width: 240,
+    },
     {
       headerName: "Assets Under Management(Cr)",
       field: "aum",
       width: 250,
       valueFormatter: (params) => params.data.aum.toFixed(2),
-      headerTooltip:
-        `AUM is the total market value of the investments that a person or entity manages on behalf of clients.`,
+      sortable: true,
+      headerComponentParams: {
+        tip: "Assets under management (AUM) is the total market value of the investments that a person or entity manages on behalf of clients. Assets under management definitions and formulas vary by company.",
+      },
     },
     {
       headerName: "Growth Rate",
       field: "cagr",
       valueFormatter: (params) => params.data.cagr.toFixed(2),
-      headerTooltip: "The growth rate is the rate of return required for an investment to grow from its beginning balance to its ending balance when interest is compounded.",
-      maxWidth:'200'
+
+      headerComponentParams: {
+        tip: "The compound annual growth rate (CAGR) is the rate of return (RoR) that would be required for an investment to grow from its beginning balance to its ending balance, assuming the profits were reinvested at the end of each period of the investment’s life span.",
+      },
+      maxWidth: "200",
+      sortable: true,
     },
     {
       headerName: "Expense Ratio",
       field: "expense_ratio",
       valueFormatter: (params) => params.data.expense_ratio?.toFixed(2),
-      headerTooltip: "The % amount that the Mutual Fund manager takes as a fee for their service",
+      
+      headerComponentParams: {
+        tip: "An expense ratio (ER), also sometimes known as the management expense ratio (MER), measures how much of a fund's assets are used for administrative and other operating expenses.",
+      },
+      sortable: true,
     },
     {
       headerName: "Risk",
       field: "sebi_risk",
       width: 165,
-      headerTooltip: "It is the risk of change in the Net Asset Value of a Mutual Fund ",
-    },
+      headerComponentParams: {
+        tip: "All Mutual funds are subjected to market risks. The risk in funds are judged on the basis of three parameters - market capitalisation, volatility, and impact cost.",
+      },
+      },
   ];
 
+  const components = useMemo(() => {
+    return {
+      agColumnHeader: CustomHeader,
+    };
+  }, []);
   const defaultColDef = useMemo(() => {
     return {
       // set the default column width
       width: 170,
-      sortable: true,
+
       resizable: true,
     };
   }, []);
@@ -143,6 +168,7 @@ const GridTable = (props) => {
               paginationAutoPageSize={true}
               pagination={true}
               tooltipShowDelay={300}
+              components={components}
             ></AgGridReact>
           </div>
         </div>

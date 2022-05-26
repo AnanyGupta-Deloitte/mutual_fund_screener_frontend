@@ -94,7 +94,8 @@ const UserProfile = () => {
   useEffect(() => {
     let list = [];
     if (user){
-      setName(user?.returnUserDetails?.userName.toUpperCase());
+      let name1= user?.returnUserDetails?.userName.substring(0,1).toUpperCase()+user?.returnUserDetails?.userName.substring(1).toLowerCase();
+      setName(name1);
       setEmail(user?.returnUserDetails?.email.toLowerCase());
       for (var j = 0; j < user?.returnUserDetails?.wishList?.length; j++) {
         list.push(user.returnUserDetails.wishList[j]);

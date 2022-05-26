@@ -16,8 +16,8 @@ let ResetPassword = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [repasswordVisibility, setRePasswordVisibility] = useState(false);
   const [password, setPassword] = useState("");
-  const [repasswordError, setRePasswordError] = useState("");
-  const [repassword, setRePassword] = useState(false);
+  const [repasswordError, setRePasswordError] = useState(false);
+  const [repassword, setRePassword] = useState("");
   const [resetSuccess, setResetSuccess] = useState(false);
   const [error,setError] = useState("");
   let obj = useParams();

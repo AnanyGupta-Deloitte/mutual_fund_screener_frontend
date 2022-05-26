@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,13 +11,19 @@ import CalculateIcon from "@mui/icons-material/Calculate";
 import { AuthContext } from "../../ContextApi/AuthProvider";
 const Navbar = () => {
   const { user, logout, isAdmin } = useContext(AuthContext);
-
+  const [name, setName] = useState("");
+  useEffect(() => {
+    let name =
+      user?.returnUserDetails?.userName.substring(0, 1).toUpperCase() +
+      user?.returnUserDetails?.userName.substring(1).toLowerCase();
+    setName(name);
+  }, [user]);
   const clickFunc = () => {
     logout();
   };
   return (
     <Toolbar>
-      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
         <Link style={{ color: "#FFF", textDecoration: "none" }} to="/">
           Mutual Fund Screener
         </Link>
@@ -24,38 +31,54 @@ const Navbar = () => {
       <Box
         sx={{
           boxSizing: "border-box",
-         width: ["25vh"],
+          width: ["40vh"],
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "space-around ",
           alignItems: "center",
           marginRight: "1vh",
         }}
       >
-        <Link style={{ color: "#FFF" }} to="/calculator">
-          <CalculateIcon fontSize="large" />
-        </Link>
-
         {isAdmin ? (
-          <Link style={{ color: "#FFF" }} to={isAdmin ? "/admin" : "/"}>
-            <AdminPanelSettingsIcon fontSize="large" />
-          </Link>
+          <Tooltip title="Admin Dashboard">
+            <Link style={{ color: "#FFF" }} to={isAdmin ? "/admin" : "/"}>
+              <AdminPanelSettingsIcon fontSize="large" />
+            </Link>
+          </Tooltip>
         ) : (
           ""
         )}
+        <Tooltip title="SIP Calculator ">
+          <Link style={{ color: "#FFF" }} to="/calculator">
+            <CalculateIcon fontSize="large" />
+          </Link>
+        </Tooltip>
         {user ? (
           <>
+                <Tooltip title="User Profile">
+
             <Link
-              style={{ color: "#FFF" }}
+              style={{
+                color: "#FFF",
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-around",
+                // width: "10vw"
+              }}
               to={user ? "/userprofile" : "/login"}
             >
               <AccountCircle fontSize="large" />
+              <Typography display="inline" variant="h6">
+                {name}
+              </Typography>
             </Link>
+            </Tooltip>
             <Button
               variant="contained"
               disableElevation
               color="secondary"
               onClick={clickFunc}
-            >
+              >
               {" "}
               Logout
             </Button>
