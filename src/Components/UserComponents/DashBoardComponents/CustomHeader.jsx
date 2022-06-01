@@ -57,7 +57,7 @@ export default (props) => {
   let sort = null;
   if (props.enableSorting) {
     sort = (
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex'}}>
         <div
           onClick={(event) => onSortRequested('asc', event)}
           onTouchEnd={(event) => onSortRequested('asc', event)}

@@ -91,7 +91,7 @@ const MutualFundPage = () => {
   }, [obj, user]);
 
   const data = {
-    labels: date,
+    labels: date, 
     datasets: [
       {
         label: "Nav value",

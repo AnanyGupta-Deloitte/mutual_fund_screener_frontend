@@ -13,7 +13,7 @@ const MutualFundComponent = (p) => {
 
   return (
     <Link
-      style={{ textDecoration: "none", color: "blue" }}
+      style={{ textDecoration: "none",color:"#1769aa" }}
       to={{
         pathname: path,
       }}
@@ -41,7 +41,7 @@ const GridTable = (props) => {
       filter: "agTextColumnFilter",
       floatingFilter: true,
       cellRenderer: MutualFundComponent,
-      width: 280,
+      width: 280,color:"#3f50b5" ,
       suppressMenu: true,
     },
     { headerName: "Plan", suppressMenu: true, field: "plan", width: 100 },

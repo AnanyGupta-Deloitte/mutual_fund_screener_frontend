@@ -9,7 +9,8 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { Link } from "react-router-dom";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import { AuthContext } from "../../ContextApi/AuthProvider";
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import { border } from "@mui/system";
 const Navbar = () => {
   const { user, logout, isAdmin } = useContext(AuthContext);
   const [name, setName] = useState("");
@@ -80,9 +81,13 @@ const Navbar = () => {
               </Link>
             </Tooltip>
             <Button
-              variant="contained"
+              variant="outline"
               disableElevation
-              color="secondary"
+              disableRipple
+              sx={{
+                background: "white",
+                color: "primary.main",
+              }}
               onClick={clickFunc}
             >
               {" "}
@@ -90,8 +95,14 @@ const Navbar = () => {
             </Button>
           </>
         ) : (
-          <Link style={{ color: "#FFF", textDecoration: "none" }} to="/login">
-            <Button variant="contained" disableElevation color="secondary">
+          <Link style={{ textDecoration: "none", border: "none" }} to="/login">
+            <Button
+              variant="outline"
+              sx={{
+                background: "white",
+                color: "primary.main  ",
+              }}
+            >
               {" "}
               Login
             </Button>
