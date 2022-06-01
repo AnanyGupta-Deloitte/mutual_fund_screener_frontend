@@ -98,9 +98,11 @@ const Navbar = () => {
           <Link style={{ textDecoration: "none", border: "none" }} to="/login">
             <Button
               variant="outline"
+              disableElevation
+              disableRipple
               sx={{
                 background: "white",
-                color: "primary.main  ",
+                color: "primary.main",
               }}
             >
               {" "}
